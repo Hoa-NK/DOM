@@ -1,19 +1,109 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ví dụ DOM: Đổi màu nền ngẫu nhiên</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản lý Sản phẩm</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-    <div class="container">
-        <h1>Trình đổi màu nền</h1>
-        <p>Màu nền hiện tại: <span id="color-code">#ffffff</span></p>
-        <button id="btn-change">Đổi màu nền</button>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🛒</span>
+        <span class="logo-text">Shop NK</span>
+      </div>
+      <p class="header-sub">Quản lý sản phẩm</p>
+      <div class="header-actions">
+        <button class="btn-add" id="btnOpenModal">+ Thêm sản phẩm</button>
+        <button class="btn-bulk-mode" id="btnToggleDeleteMode">🗑 Xóa sản phẩm</button>
+      </div>
     </div>
+  </header>
 
-    <script src="script.js"></script>
+  <div class="toolbar">
+    <span class="product-count">Hiển thị <strong id="countDisplay">6</strong> sản phẩm</span>
+    
+    <div class="bulk-controls" id="bulkControls" style="display: none;">
+      <label class="checkbox-label">
+        <input type="checkbox" id="chkSelectAll" /> Chọn tất cả
+      </label>
+      <button class="btn-execute-delete" id="btnOpenConfirmBulk">Xóa các mục đã chọn (<span id="selectedCount">0</span>)</button>
+      <button class="btn-cancel-mode" id="btnExitDeleteMode">Hủy</button>
+    </div>
+  </div>
+
+  <main class="container">
+    <div class="product-grid" id="productGrid">
+      </div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="empty-icon">📦</div>
+      <p>Chưa có sản phẩm nào. Hãy thêm sản phẩm đầu tiên!</p>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Thêm sản phẩm</h2>
+        <button class="modal-close" id="btnCloseModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editIndex" value="-1" />
+
+        <div class="form-group">
+          <label for="inputName">Tên sản phẩm</label>
+          <input type="text" id="inputName" placeholder="VD: Áo thun basic" />
+        </div>
+
+        <div class="form-group">
+          <label for="inputImg">URL hình ảnh</label>
+          <input type="text" id="inputImg" placeholder="https://..." />
+          <div class="img-preview-wrap">
+            <img id="imgPreview" src="" alt="" />
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="inputOriginalPrice">Giá niêm yết (VNĐ)</label>
+            <input type="number" id="inputOriginalPrice" placeholder="VD: 300000" min="0" />
+          </div>
+          <div class="form-group">
+            <label for="inputPrice">Giá sau giảm (VNĐ)</label>
+            <input type="number" id="inputPrice" placeholder="VD: 250000" min="0" />
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-cancel" id="btnCancelModal">Hủy</button>
+          <button class="btn-save" id="btnSave">Lưu</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="confirmOverlay">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2>Xác nhận xóa</h2>
+        <button class="modal-close" id="btnCloseConfirm">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="confirm-text" id="confirmText">Bạn có chắc muốn xóa sản phẩm này không?</p>
+        <div class="modal-actions">
+          <button class="btn-cancel" id="btnCancelConfirm">Hủy</button>
+          <button class="btn-delete-confirm" id="btnConfirmDelete">Xóa</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
 </body>
 </html>
